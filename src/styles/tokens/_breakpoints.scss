@@ -1,0 +1,29 @@
+/*
+
+  BREAKPOINTS
+
+  A map of breakpoint sizes.
+
+*/
+
+$mobile-sm: 390px;
+$mobile: 576px;
+$mobile-lg: 768px;
+$tablet: 992px;
+$laptop-sm: 1200px;
+$laptop: 1400px;
+$laptop-lg: 1600px;
+$desktop: 1920px;
+$desktop-lg: 2560px;
+
+$breakpoints: (
+  mobile-sm: $mobile-sm,
+  mobile: $mobile,
+  mobile-lg: $mobile-lg,
+  tablet: $tablet,
+  laptop-sm: $laptop-sm,
+  laptop: $laptop,
+  laptop-lg: $laptop-lg,
+  desktop: $desktop,
+  desktop-lg: $desktop-lg,
+);

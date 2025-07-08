@@ -1,0 +1,23 @@
+/*
+  
+  LETTER-SPACING MIXIN  
+  
+  A mixin for helping prevent alignment issues when applying letter-spacing. 
+  When letter-spacing is added, the text is visually shifted to the left. This is
+  actually because the final character has the letter-spacing applied to as well
+  causing the element to have extra white space on the right side.
+  
+  It's often not noticable, but is most apparent when text is centered and the 
+  letter-spacing is a larger value.
+
+  Use this mixin anytime you want to apply letter-spacing to ensure the text is
+  position in it's original, expected placement.
+
+  See #51 for a visual reference. 
+
+*/
+
+@mixin letter-spacing($value) {
+  letter-spacing: $value;
+  margin-right: -$value;
+}

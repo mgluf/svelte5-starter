@@ -1,0 +1,19 @@
+/*
+
+  COLORS
+
+*/
+
+// COLORS
+// ────────────────────────────────────
+
+$color-bg: #ffffff;
+$color-text: #111;
+$color-accent: #0070f3;
+$color-accent-hover: color-mix(in srgb, $color-accent 90%, black);
+
+$color-bg-dark: #111;
+$color-text-dark: #f1f1f1;
+$color-accent-dark: #4ea8de;
+$color-accent-dark-hover: color-mix(in srgb, $color-accent-dark 90%, black);
+

@@ -1,0 +1,93 @@
+/*
+
+  FUNCTIONS
+
+  Global Sass functions
+
+*/
+
+@use "sass:math";
+@use "sass:list";
+@use 'sass:map';
+@use 'sass:string';
+
+@use 'tokens/index' as *;
+
+
+
+// UTILITY
+// ────────────────────────────────────
+
+// Strip the units of a value to operate on it as a number
+@function unitless($number) {
+  @return math.div($number, ($number * 0 + 1));
+}
+
+// Convert a pixel value to rems
+@function rem($pixel-value, $base: 16) {
+  @return (math.div(unitless($pixel-value), unitless($base))) * 1rem;
+}
+
+// Scale-independent pixel (converts to rems)
+@function sp($pixel-value) {
+  @return rem($pixel-value);
+}
+
+// RESPONSIVE SIZE
+// ────────────────────────────────────
+//
+// Responsive Size utility that returns a clamped size between
+// the min and max values that correspond to two breakpoint values.
+// (Similar to twbs/rfs, but with more control.)
+//
+// Note: min and max values are interpretted as pixel units (units are stripped / can be left off)
+@function rs($minBreakpoint, $maxBreakpoint, $min-value, $max-value) {
+  $min-width: '';
+  $max-width: '';
+  $min-value: unitless($min-value);
+  $max-value: unitless($max-value);
+
+  // Check if the supplied min breakpoint exists in our breakpoints map
+  @if map.has-key($breakpoints, $minBreakpoint) {
+    $min-width: unitless(map.get($breakpoints, $minBreakpoint));
+  }
+  // Value is not a defined breakpoint, but use it directly
+  @else {
+    $min-width: unitless($minBreakpoint);
+  }
+  // Check if the supplied max breakpoint exists in our breakpoints map
+  @if map.has-key($breakpoints, $maxBreakpoint) {
+    $max-width: unitless(map.get($breakpoints, $maxBreakpoint));
+  }
+  // Value is not a defined breakpoint, but use it directly
+  @else {
+    $max-width: unitless($maxBreakpoint);
+  }
+
+  $slope: math.div($max-value - $min-value, $max-width - $min-width);
+  $yAxisIntersection: $min-value - $min-width * $slope;
+
+  @return string.unquote("clamp(#{sp($min-value)}, calc(#{sp($yAxisIntersection)} + #{$slope} * 100vw), #{sp($max-value)})");
+}
+
+// A shorthand wrapper for rs that sets the breakpoint values to the standard desktop range
+// Note: Values are interpretted as pixel units (units are stripped / can be left off)
+@function rs-desktop($min-value, $max-value) {
+  $min-value: unitless($min-value);
+  $max-value: unitless($max-value);
+  $min-width: $tablet;
+  $max-width: $desktop;
+
+  @return rs($min-width, $max-width, $min-value, $max-value);
+}
+
+// A shorthand wrapper for rs that sets the breakpoint values to the standard mobile range
+// Note: Values are interpretted as pixel units (units are stripped / can be left off)
+@function rs-mobile($min-value, $max-value) {
+  $min-value: unitless($min-value);
+  $max-value: unitless($max-value);
+  $min-width: $mobile-sm;
+  $max-width: $tablet;
+
+  @return rs($min-width, $max-width, $min-value, $max-value);
+}

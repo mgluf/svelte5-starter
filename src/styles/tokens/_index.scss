@@ -1,0 +1,15 @@
+@forward 'breakpoints' show
+  $mobile-sm,
+  $mobile,
+  $mobile-lg,
+  $tablet,
+  $laptop-sm,
+  $laptop,
+  $laptop-lg,
+  $desktop,
+  $desktop-lg,
+  $breakpoints;
+
+  @forward 'animations';
+  @forward 'colors';
+  @forward 'typography';
