@@ -11,6 +11,8 @@
 */
 
 @use "sass:list";
+@use 'sass:map';
+@use "tokens" as *;
 
 // MAIN MIXINS
 // ────────────────────────────────────
@@ -25,8 +27,8 @@
 //
 @mixin breakpoint($breakpoint, $direction: up) {
   //check if the supplied breakpoint exists in our breakpoints map
-  @if map-has-key($breakpoints, $breakpoint) {
-    $breakpoint-value: map-get($breakpoints, $breakpoint);
+  @if map.has-key($breakpoints, $breakpoint) {
+    $breakpoint-value: map.get($breakpoints, $breakpoint);
     //check if we are writing styles for larger or smaller screens
     @if $direction == min or $direction == up {
       @media (min-width: $breakpoint-value) {
@@ -63,8 +65,8 @@
 // If $lower or $upper are null, the non-null direciton is passed
 // to the main breakpoint mixin instead (single-direction media query)
 @mixin breakpoint-between($lower, $upper) {
-  $min: if(map-has-key($breakpoints, $lower), map-get($breakpoints, $lower), $lower);
-  $max: if(map-has-key($breakpoints, $upper), map-get($breakpoints, $upper), $upper);
+  $min: if(map.has-key($breakpoints, $lower), map.get($breakpoints, $lower), $lower);
+  $max: if(map.has-key($breakpoints, $upper), map.get($breakpoints, $upper), $upper);
 
   @if $min != null and $max != null {
     @media (min-width: $min) and (max-width: $max) {
