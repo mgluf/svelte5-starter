@@ -1,0 +1,17 @@
+@use "sass:math";
+
+
+// Strip the units of a value to operate on it as a number
+@function unitless($number) {
+  @return math.div($number, ($number * 0 + 1));
+}
+
+// Convert a pixel value to rems
+@function rem($pixel-value, $base: 16) {
+  @return (math.div(unitless($pixel-value), unitless($base))) * 1rem;
+}
+
+// Scale-independent pixel (converts to rems)
+@function sp($pixel-value) {
+  @return rem($pixel-value);
+}

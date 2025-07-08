@@ -1,37 +1,13 @@
-/*
-
-  FUNCTIONS
-
-  Global Sass functions
-
-*/
-
 @use "sass:math";
 @use "sass:list";
 @use 'sass:map';
 @use 'sass:string';
 
-@use 'tokens/index' as *;
+@use 'tokens' as *;
+@use 'util' as *;
 
 
 
-// UTILITY
-// ────────────────────────────────────
-
-// Strip the units of a value to operate on it as a number
-@function unitless($number) {
-  @return math.div($number, ($number * 0 + 1));
-}
-
-// Convert a pixel value to rems
-@function rem($pixel-value, $base: 16) {
-  @return (math.div(unitless($pixel-value), unitless($base))) * 1rem;
-}
-
-// Scale-independent pixel (converts to rems)
-@function sp($pixel-value) {
-  @return rem($pixel-value);
-}
 
 // RESPONSIVE SIZE
 // ────────────────────────────────────

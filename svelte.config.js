@@ -7,11 +7,6 @@ const config = {
   preprocess: sveltePreprocess({
     scss: {
       includePaths: ['./src/styles'],
-      prependData: `
-        @use 'tokens/index' as *;
-        @use 'mixins/index' as *;
-        @use 'functions' as *;
-      `
     }
   }),
 
