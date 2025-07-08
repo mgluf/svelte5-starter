@@ -1,10 +1,6 @@
 <script>
-  import emblaCarouselSvelte from 'embla-carousel-svelte';
-  import Autoplay from 'embla-carousel-autoplay';
-
-  import Slide from './Slide.svelte';
-  import Arrow from './Arrow.svelte';
-  import Dot from './Dot.svelte';
+  import emblaCarouselSvelte from "embla-carousel-svelte";
+  import Autoplay from "embla-carousel-autoplay";
 
   export let slides = [];
   export let arrows = false;
@@ -23,18 +19,18 @@
     plugins.push(Autoplay({}));
   }
 
- function onInit(event) {
+  function onInit(event) {
     embla = event.detail;
 
     if (dots === true) {
-      embla.on('select', updateDots);
+      embla.on("select", updateDots);
       updateDots();
     }
 
     if (dynamicArrows === true && options.loop === false) {
-      embla.on('select', updateArrows);
+      embla.on("select", updateArrows);
       updateArrows();
-      window.addEventListener('resize', updateArrows);
+      window.addEventListener("resize", updateArrows);
     }
   }
 
@@ -72,174 +68,167 @@
 </script>
 
 <div
-  class="kit-carousel"
+  class="carousel"
   use:emblaCarouselSvelte={{
     options: {
       ...options,
-      container: `.kit-carousel-container`,
-      slides: `.kit-carousel-slide`,
+      container: `.carousel-container`,
+      slides: `.carousel-slide`,
     },
     plugins,
   }}
-  on:emblaInit={onInit}
+  onemblaInit={onInit}
 >
   <!-- Track: Handles scrolling behavior -->
-  <div class="kit-carousel-track">
+  <div class="carousel-track">
     <!-- Container: Manages slide flex layout -->
-    <div class="kit-carousel-container">
-      {#each slides as slide}
-        <div class="kit-carousel-slide">
-          <Slide data={slide} />
-        </div>
-      {/each}
+    <div class="carousel-container">
+      <div class="carousel-slide">
+        <slot name="slides" />
+      </div>
     </div>
   </div>
 
   {#if arrows}
-    <div class="kit-carousel-buttons">
+    <div class="carousel-buttons">
       <button
-        class="kit-carousel-button kit-carousel-button-prev"
-        on:click={scrollPrev}
+        class="carousel-button carousel-button-prev"
+        onclick={scrollPrev}
         class:hide={hidePrevArrow}
       >
-        <Arrow />
+        <slot name="arrow-previous" />
       </button>
       <button
-        class="kit-carousel-button kit-carousel-button-next"
-        on:click={scrollNext}
+        class="carousel-button carousel-button-next"
+        onclick={scrollNext}
         class:hide={hideNextArrow}
       >
-        <Arrow />
+        <slot name="arrrow-next" />
       </button>
     </div>
   {/if}
 
   {#if dots}
-    <div class="kit-carousel-indicators">
+    <div class="carousel-indicators">
       {#each slides as dot, i}
-      <div>
-        <Dot
-          onClick={() => setSlide(i)}
-          active={i === currentSlideIndex}
-        />
-      </div>
+        <button onclick={() => setSlide(i)} active={i === currentSlideIndex}>
+          <slot name="dots" />
+        </button>
       {/each}
     </div>
   {/if}
 </div>
 
 <style lang="scss">
-@use 'mixins' as *;
-@use 'tokens' as *;
+  @use "mixins" as *;
+  /* ========================================= */
+  /* Core Carousel Wrapper */
+  /* ========================================= */
 
-/* ========================================= */
-/* Core Carousel Wrapper */
-/* ========================================= */
+  .carousel {
+    width: 100%;
+    position: relative;
+  }
 
-.kit-carousel {
-  width: 100%;
-  position: relative;
-}
+  /* ========================================= */
+  /* Slide Track - Controls Overflow */
+  /* ========================================= */
 
-/* ========================================= */
-/* Slide Track - Controls Overflow */
-/* ========================================= */
+  .carousel-track {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+  }
 
-.kit-carousel-track {
-  position: relative;
-  overflow: hidden;
-  width: 100%;
-}
+  /* ========================================= */
+  /* Slide Container - manage slide layout */
+  /* ========================================= */
 
-/* ========================================= */
-/* Slide Container - manage slide layout */
-/* ========================================= */
+  .carousel-container {
+    display: flex;
+    min-width: 100%;
+    will-change: transform; /* Smooth scrolling */
+  }
 
-.kit-carousel-container {
-  display: flex;
-  min-width: 100%;
-  will-change: transform; /* Smooth scrolling */
-}
+  /* ========================================= */
+  /* Individual Slide */
+  /* ========================================= */
 
-/* ========================================= */
-/* Individual Slide */
-/* ========================================= */
+  .carousel-slide {
+    flex: 0 0 100%;
+    min-width: 0;
+    max-width: 100%;
+    display: block;
+    width: 100%;
+  }
 
-.kit-carousel-slide {
-  flex: 0 0 100%;
-  min-width: 0;
-  max-width: 100%;
-  display: block;
-  width: 100%;
-}
+  /* ========================================= */
+  /* Button Navigation (Prev/Next) */
+  /* ========================================= */
 
-/* ========================================= */
-/* Button Navigation (Prev/Next) */
-/* ========================================= */
+  .carousel-buttons {
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    pointer-events: none; // Allows swipe gestures behind buttons
 
-.kit-carousel-buttons {
-  position: absolute;
-  z-index: 1;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  pointer-events: none; // Allows swipe gestures behind buttons
+    button {
+      pointer-events: all; // Ensures buttons are clickable
 
-  button {
-    pointer-events: all; // Ensures buttons are clickable
-
-    &:nth-of-type(2) {
-      transform: rotate(180deg); // Rotates next button
+      &:nth-of-type(2) {
+        transform: rotate(180deg); // Rotates next button
+      }
     }
   }
-}
 
-.kit-carousel-button {
-  padding: 0;
-  background-color: transparent;
-  border: none;
-  width: sp(40);
+  .carousel-button {
+    padding: 0;
+    background-color: transparent;
+    border: none;
+    width: sp(40);
 
-  @include bp(lg, down) {
-    width: rs-mobile(32, 40);
+    @include bp(lg, down) {
+      width: rs-mobile(32, 40);
+    }
+
+    // Arrow icon color
+    color: gray;
+
+    // Arrow background color
+    :global(.carousel-button-arrow-circle) {
+      fill: white;
+      opacity: 0.5;
+    }
+
+    &:focus-visible {
+      outline: 2px solid black !important;
+    }
+
+    &:focus {
+      outline: none !important;
+    }
+
+    &.hide {
+      opacity: 0;
+      pointer-events: none;
+    }
   }
 
-  // Arrow icon color
-  color: #f5f5f5;
+  /* ========================================= */
+  /* Dot Indicators                            */
+  /* ========================================= */
 
-  // Arrow background color
-  :global(.kit-carousel-button-arrow-circle) {
-    fill: white;
-    opacity: 0.5;
+  .carousel-indicators {
+    display: flex;
+    width: 100%;
+    padding: 10px;
+    align-items: center;
+    justify-content: center;
   }
-
-  &:focus-visible {
-    outline: 2px solid black !important;
-  }
-
-  &:focus {
-    outline: none !important;
-  }
-
-  &.hide {
-    opacity: 0;
-    pointer-events: none;
-  }
-}
-
-/* ========================================= */
-/* Dot Indicators                            */
-/* ========================================= */
-
-.kit-carousel-indicators {
-  display: flex;
-  width: 100%;
-  padding: 10px;
-  align-items: center;
-  justify-content: center;
-}
 </style>

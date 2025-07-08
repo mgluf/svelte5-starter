@@ -128,7 +128,7 @@
 // Handles an arbitrary argument list (up to 3) and passes them
 // to the most appropriate mixin based on arg count
 @mixin bp($args...) {
-  $num-args: length($args);
+  $num-args: list.length($args);
   @if $num-args > 3 {
     @error 'Too many arguments (>3)';
   }
