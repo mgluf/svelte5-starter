@@ -6,18 +6,20 @@
   import Arrow from './Arrow.svelte';
   import Dot from './Dot.svelte';
 
-  export let slides = [];
-  export let arrows = false;
-  export let dots = false;
-  export let autoplay = false;
-  export let dynamicArrows = false;
-  export let options = { loop: true };
+  let {
+    slides = [],
+    arrows = false,
+    dots = false,
+    autoplay = false,
+    dynamicArrows = false,
+    options = { loop: true }
+  } = $props();
 
   let embla;
   let plugins = [];
-  let currentSlideIndex = 0;
-  let hidePrevArrow = false;
-  let hideNextArrow = false;
+  let currentSlideIndex = $state(0);
+  let hidePrevArrow = $state(false);
+  let hideNextArrow = $state(false);
 
   if (autoplay === true) {
     plugins.push(Autoplay({}));
@@ -81,7 +83,7 @@
     },
     plugins,
   }}
-  on:emblaInit={onInit}
+  onemblaInit={onInit}
 >
   <!-- Track: Handles scrolling behavior -->
   <div class="carousel-track">

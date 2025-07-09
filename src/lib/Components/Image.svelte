@@ -2,15 +2,17 @@
   import parse from '@lib/helpers/path';
   import generatePicture from '@lib/helpers/generatePicture';
 
-  export let className = '';
-  export let picture = false;
-  export let src;
-  export let srcset;
-  export let alt;
-  export let title;
-  export let loading;
+  let {
+    className = '',
+    picture = false,
+    src = null,
+    srcset = null,
+    alt = null,
+    title = null,
+    loading = null
+  } = $props()
 
-  let pictureData;
+  let pictureData = $state(null);
 
   if(picture) {
     pictureData = generatePicture(src);

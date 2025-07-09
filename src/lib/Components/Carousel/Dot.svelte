@@ -1,11 +1,13 @@
 <script>
-  export let active = false;
-  export let onClick = () => {};
+  let { active = false, onClick = () => {} } = $props();
 </script>
 
-<button click={onClick} class="kit-carousel-dot-wrapper" aria-label="carousel-dot">
-  <div class="kit-carousel-dot embla__dot" class:active>
-  </div>
+<button
+  click={onClick}
+  class="kit-carousel-dot-wrapper"
+  aria-label="carousel-dot"
+>
+  <div class="kit-carousel-dot embla__dot" class:active></div>
 </button>
 
 <style lang="scss">

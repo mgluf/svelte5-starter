@@ -1,6 +1,6 @@
 <script>
   // import Image from '@lib/Components/Image.svelte';
-  export let data;
+  let { data } = $props();
 </script>
 
 <div class="kit-carousel-slide-content">
