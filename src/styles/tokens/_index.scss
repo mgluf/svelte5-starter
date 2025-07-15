@@ -10,6 +10,10 @@
   $desktop-lg,
   $breakpoints;
 
-  @forward 'animations';
-  @forward 'colors';
-  @forward 'typography';
+@forward 'animations';
+@forward 'colors';
+@forward 'typography';
+
+$border-radius: 0.5rem;
+$space: 1rem;
+$max-width: 1200px;
