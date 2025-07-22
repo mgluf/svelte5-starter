@@ -7,5 +7,6 @@
   h1 {
     font-size: rs-desktop(25, 56);
     color: $color-accent;
+    padding: sp(10);
   }
 </style>
